@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pages-mysql
+  labels:
+    app: {{ .Release.Name }}-{{ .Chart.Name }}
+spec:
+  ports:
+    - port: {{ .Values.service.port }}
+  selector:
+    app: {{ .Release.Name }}-{{ .Chart.Name }}
+  type: {{ .Values.service.type }}
+
+
+  apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.mysql_svc_name }}
+  labels:
+    app: {{ include "mysql.fullname" . }}
+spec:
+  ports:
+    - port: {{ .Values.service.port }}
+  selector:
+    app: {{ include "mysql.fullname" . }}
+  type: {{ .Values.service.type }}
+
+
+
+  name: {{ include "mysql.getdbservicename" . }}
